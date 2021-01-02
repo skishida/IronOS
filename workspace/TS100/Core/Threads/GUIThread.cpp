@@ -1,4 +1,3 @@
-
 /*
  * GUIThread.cpp
  *
@@ -35,6 +34,7 @@ extern osThreadId MOVTaskHandle;
 extern osThreadId PIDTaskHandle;
 static bool shouldBeSleeping(bool inAutoStart = false);
 static bool shouldShutdown();
+void i2c_scan();
 void showWarnings();
 #define MOVEMENT_INACTIVITY_TIME (60 * configTICK_RATE_HZ)
 #define BUTTON_INACTIVITY_TIME (60 * configTICK_RATE_HZ)
@@ -962,4 +962,25 @@ void startGUITask(void const *argument __unused) {
 		OLED::refresh();
 		GUIDelay();
 	}
+}
+
+void i2c_scan() {
+//Blocking I2C scanner
+//Scan the main I2C bus and report to the user all ID's found
+	osDelay(100);
+	for (;;) {
+		OLED::clearScreen();
+		OLED::setFont(0);
+		for (int id = 0; id < 128; id++) {
+			if (FRToSI2C::probe(id)) {
+				OLED::clearScreen();
+				OLED::setCursor(0, 0);
+				OLED::printNumber(id, 3);
+				OLED::refresh();
+				waitForButtonPress();
+			}
+			osDelay(10);
+		}
+	}
+
 }
