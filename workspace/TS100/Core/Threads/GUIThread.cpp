@@ -1,3 +1,4 @@
+
 /*
  * GUIThread.cpp
  *
@@ -20,7 +21,7 @@ extern "C" {
 #include "string.h"
 #include "unit.h"
 #include <MMA8652FC.hpp>
-#include <gui.hpp>
+#include <settingsMenuGUI.hpp>
 #include <history.hpp>
 #include <power.hpp>
 #ifdef POW_PD

@@ -5,7 +5,7 @@
  *      Author: Ben V. Brown
  */
 
-#include "gui.hpp"
+#include <settingsMenuGUI.hpp>
 #include "Translation.h"
 #include "cmsis_os.h"
 #include "main.hpp"
@@ -216,7 +216,7 @@ const menuitem advancedMenu[] = {
 { NULL, NULL, NULL }																										  // end of menu marker. DO NOT REMOVE
 };
 
-static void printShortDescriptionDoubleLine(uint32_t shortDescIndex) {
+static void printSettingName(uint32_t shortDescIndex) {
 	OLED::setFont(1);
 	OLED::setCharCursor(0, 0);
 	OLED::print(SettingsShortNames[shortDescIndex][0]);
@@ -232,8 +232,8 @@ static void printShortDescriptionDoubleLine(uint32_t shortDescIndex) {
  * description.
  */
 static void printShortDescription(uint32_t shortDescIndex, uint16_t cursorCharPosition) {
-	// print short description (default single line, explicit double line)
-	printShortDescriptionDoubleLine(shortDescIndex);
+	// print the setting name
+	printSettingName(shortDescIndex);
 
 	// prepare cursor for value
 	OLED::setFont(0);

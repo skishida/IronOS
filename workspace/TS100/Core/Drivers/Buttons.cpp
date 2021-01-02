@@ -5,9 +5,9 @@
  *      Author: Ralim
  */
 #include <Buttons.hpp>
+#include <settingsMenuGUI.hpp>
 #include "FreeRTOS.h"
 #include "task.h"
-#include "gui.hpp"
 uint32_t lastButtonTime = 0;
 
 ButtonState getButtonState() {
