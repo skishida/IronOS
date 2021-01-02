@@ -1,7 +1,6 @@
 {
 	"languageCode": "DE",
 	"languageLocalName": "Deutsch",
-	"cyrillicGlyphs": false,
 	"tempUnitFahrenheit": false,
 	"messages": {
 		"SettingsCalibrationDone": "Kalibrierung abgeschlossen!",

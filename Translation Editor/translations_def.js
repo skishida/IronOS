@@ -87,7 +87,7 @@ var def =
 		},
 		{
 			"id": "YourGainMessage",
-			"maxLen": 8,
+			"maxLen": 16,
 			"default": "Your Gain"
 		},
 		{

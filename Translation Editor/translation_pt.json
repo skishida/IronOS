@@ -1,7 +1,6 @@
 {
 	"languageCode": "PT",
 	"languageLocalName": "Português",
-	"cyrillicGlyphs": false,
 	"messages": {
 		"SettingsCalibrationDone": "Calibração terminada!",
 		"SettingsCalibrationWarning": "A ponta deve estar à temperatura ambiente antes de continuar!",

@@ -1,7 +1,6 @@
 {
 	"languageCode": "TR",
 	"languageLocalName": "Türkçe",
-	"cyrillicGlyphs": false,
 	"messages": {
 		"SettingsCalibrationDone": "Kalibrasyon tamamlandı!",
 		"SettingsCalibrationWarning": "Lütfen devam etmeden önce ucun oda sıcaklığında olduğunu garantiye alın!",

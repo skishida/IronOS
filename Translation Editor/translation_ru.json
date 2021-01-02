@@ -1,7 +1,6 @@
 {
 	"languageCode": "RU",
 	"languageLocalName": "Русский",
-	"cyrillicGlyphs": true,
 	"messages": {
 		"SettingsCalibrationDone": "Калибровка завершена!",
 		"SettingsCalibrationWarning": "Прежде чем продолжить, пожалуйста, убедитесь, что жало имеет комнатную температуру!",

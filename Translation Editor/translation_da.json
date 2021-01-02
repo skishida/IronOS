@@ -1,7 +1,6 @@
 {
 	"languageCode": "DA",
 	"languageLocalName": "Dansk",
-	"cyrillicGlyphs": false,
 	"messages": {
 		"SettingsCalibrationDone": "Calibration done!",
 		"SettingsCalibrationWarning": "Sørg for at loddespidsen er ved stuetemperatur, inden du fortsætter!",

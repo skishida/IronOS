@@ -48,8 +48,8 @@
 				} else if (id == "current-lang-file") {
 					if (checkTranslationFile(file.name)) {
 						app.current = json;
-						if (!app.current.cyrillicGlyphs) {
-							app.current.cyrillicGlyphs = false;
+						if (!app.current.singleLineSettings) {
+							app.current.singleLineSettings = false;
 						}
 						app.meta.currentLoaded = true;
 					}
@@ -238,12 +238,12 @@
 				<td class="value"><input type="text" v-model="current.languageLocalName" class="short"></td>
 			</tr>
 			<tr v-if="meta.currentLoaded">
-				<td class="label">Font table to use</td>
+				<td class="label">Font style to use for settings menu</td>
 				<td class="value">
-					<select v-model="current.cyrillicGlyphs"
-						v-on:change="current.cyrillicGlyphs = current.cyrillicGlyphs=='true'">
-						<option value="false">Latin Extended</option>
-						<option value="true">Cyrillic Glyphs</option>
+					<select v-model="current.singleLineSettings"
+						v-on:change="current.singleLineSettings = current.singleLineSettings=='true'">
+						<option value="false">non-CJK font (dual line)</option>
+						<option value="true">CJK font (single line)</option>
 					</select>
 				</td>
 			</tr>
@@ -317,7 +317,8 @@
 						<div class="tran"
 							v-bind:class="{unchanged : current.menuGroups[menu.id].text2[0] == referent.menuGroups[menu.id].text2[0] && current.menuGroups[menu.id].text2[1] == referent.menuGroups[menu.id].text2[1], empty : current.menuGroups[menu.id].text2[0] == '' || current.menuGroups[menu.id].text2[1] == ''}">
 							<input type="text" v-model="current.menuGroups[menu.id].text2[0]"><input type="text"
-								v-model="current.menuGroups[menu.id].text2[1]"></div>
+								v-model="current.menuGroups[menu.id].text2[1]">
+						</div>
 						<div class="label">Description</div>
 						<div class="ref">{{referent.menuGroups[menu.id].desc}}</div>
 						<div class="tran"><input type="text" v-model="current.menuGroups[menu.id].desc"
@@ -341,7 +342,8 @@
 							<div class="tran"
 								v-bind:class="{unchanged : current.menuOptions[menu.id].text2[0] == referent.menuOptions[menu.id].text2[0] && current.menuOptions[menu.id].text2[1] == referent.menuOptions[menu.id].text2[1], empty : current.menuOptions[menu.id].text2[0] == '' || current.menuOptions[menu.id].text2[1] == ''}">
 								<input type="text" v-model="current.menuOptions[menu.id].text2[0]"><input type="text"
-									v-model="current.menuOptions[menu.id].text2[1]"></div>
+									v-model="current.menuOptions[menu.id].text2[1]">
+							</div>
 						</div>
 						<div class="label">Description</div>
 						<div class="ref">{{referent.menuOptions[menu.id].desc}}</div>

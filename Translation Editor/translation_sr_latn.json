@@ -1,7 +1,6 @@
 {
 	"languageCode": "SR_LATN",
 	"languageLocalName": "Srpski",
-	"cyrillicGlyphs": false,
 	"messages": {
 		"SettingsCalibrationDone": "Kalibracija gotova",
 		"SettingsCalibrationWarning": "Proverite da li je vrh ohlađen na sobnu temperaturu pre nego što nastavite",

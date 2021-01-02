@@ -1,7 +1,6 @@
 {
 	"languageCode": "ES",
 	"languageLocalName": "Castellano",
-	"cyrillicGlyphs": false,
 	"messages": {
 		"SettingsCalibrationDone": "¡Calibrada!",
 		"SettingsCalibrationWarning": "¡Asegúrate que la punta esté a temperatura ambiente antes de empezar!",

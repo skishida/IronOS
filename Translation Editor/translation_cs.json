@@ -1,7 +1,6 @@
 {
 	"languageCode": "CS",
 	"languageLocalName": "Český",
-	"cyrillicGlyphs": false,
 	"messages": {
 		"SettingsCalibrationDone": "Kalibrace dokončena!",
 		"SettingsCalibrationWarning": "Ujistěte se, že hrot má pokojovou teplotu!",

@@ -1,7 +1,6 @@
 {
 	"languageCode": "SL",
 	"languageLocalName": "Slovensko",
-	"cyrillicGlyphs": false,
 	"messages": {
 		"SettingsCalibrationDone": "Kalibracija opravljena!",
 		"SettingsCalibrationWarning": "Preden nadaljujete, mora biti konica na sobni temperaturi!",

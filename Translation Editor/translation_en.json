@@ -1,7 +1,6 @@
 {
 	"languageCode": "EN",
 	"languageLocalName": "English",
-	"cyrillicGlyphs": false,
 	"tempUnitFahrenheit": true,
 	"messages": {
 		"SettingsCalibrationDone": "Calibration done!",
