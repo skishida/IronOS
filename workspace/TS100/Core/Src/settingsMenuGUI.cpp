@@ -135,12 +135,12 @@ const menuitem rootSettingsMenu[] {
 		{ (const char *) SettingsDescriptions[0], settings_setInputVRange, settings_displayInputVRange }, /*Voltage input*/
 #endif
 #ifdef POW_QC
-		{ (const char *) SettingsDescriptions[19], settings_setQCInputV, settings_displayQCInputV }, /*Voltage input*/
+		{ (const char*) SettingsDescriptions[19], settings_setQCInputV, settings_displayQCInputV }, /*Voltage input*/
 #endif
-		{ (const char *) NULL, settings_enterSolderingMenu, settings_displaySolderingMenu }, /*Soldering*/
-		{ (const char *) NULL, settings_enterPowerMenu, settings_displayPowerMenu }, /*Sleep Options Menu*/
-		{ (const char *) NULL, settings_enterUIMenu, settings_displayUIMenu }, /*UI Menu*/
-		{ (const char *) NULL, settings_enterAdvancedMenu, settings_displayAdvancedMenu }, /*Advanced Menu*/
+		{ (const char*) NULL, settings_enterSolderingMenu, settings_displaySolderingMenu }, /*Soldering*/
+		{ (const char*) NULL, settings_enterPowerMenu, settings_displayPowerMenu }, /*Sleep Options Menu*/
+		{ (const char*) NULL, settings_enterUIMenu, settings_displayUIMenu }, /*UI Menu*/
+		{ (const char*) NULL, settings_enterAdvancedMenu, settings_displayAdvancedMenu }, /*Advanced Menu*/
 		{ NULL, NULL, NULL }																  // end of menu marker. DO NOT REMOVE
 };
 
@@ -152,11 +152,11 @@ const menuitem solderingMenu[] = {
  *  Temp change short step
  *  Temp change long step
  */
-{ (const char *) SettingsDescriptions[8], settings_setBoostTemp, settings_displayBoostTemp }, /*Boost Temp*/
-{ (const char *) SettingsDescriptions[9], settings_setAutomaticStartMode, settings_displayAutomaticStartMode }, /*Auto start*/
-{ (const char *) SettingsDescriptions[22], settings_setTempChangeShortStep, settings_displayTempChangeShortStep }, /*Temp change short step*/
-{ (const char *) SettingsDescriptions[23], settings_setTempChangeLongStep, settings_displayTempChangeLongStep }, /*Temp change long step*/
-{ (const char *) SettingsDescriptions[27], settings_setLockingMode, settings_displayLockingMode }, /*Locking Mode*/
+{ (const char*) SettingsDescriptions[8], settings_setBoostTemp, settings_displayBoostTemp }, /*Boost Temp*/
+{ (const char*) SettingsDescriptions[9], settings_setAutomaticStartMode, settings_displayAutomaticStartMode }, /*Auto start*/
+{ (const char*) SettingsDescriptions[22], settings_setTempChangeShortStep, settings_displayTempChangeShortStep }, /*Temp change short step*/
+{ (const char*) SettingsDescriptions[23], settings_setTempChangeLongStep, settings_displayTempChangeLongStep }, /*Temp change long step*/
+{ (const char*) SettingsDescriptions[27], settings_setLockingMode, settings_displayLockingMode }, /*Locking Mode*/
 { NULL, NULL, NULL }																								// end of menu marker. DO NOT REMOVE
 };
 const menuitem UIMenu[] = {
@@ -169,13 +169,12 @@ const menuitem UIMenu[] = {
  *  Reverse Temp change buttons + - 
  */
 #ifdef ENABLED_FAHRENHEIT_SUPPORT
-		{	(const char *)SettingsDescriptions[5], settings_setTempF,
-			settings_displayTempF}, /* Temperature units*/
+		{ (const char*) SettingsDescriptions[5], settings_setTempF, settings_displayTempF }, /* Temperature units*/
 #endif
-		{ (const char *) SettingsDescriptions[7], settings_setDisplayRotation, settings_displayDisplayRotation }, /*Display Rotation*/
-		{ (const char *) SettingsDescriptions[10], settings_setCoolingBlinkEnabled, settings_displayCoolingBlinkEnabled }, /*Cooling blink warning*/
-		{ (const char *) SettingsDescriptions[15], settings_setScrollSpeed, settings_displayScrollSpeed }, /*Scroll Speed for descriptions*/
-		{ (const char *) SettingsDescriptions[21], settings_setReverseButtonTempChangeEnabled, settings_displayReverseButtonTempChangeEnabled }, /* Reverse Temp change buttons + - */
+		{ (const char*) SettingsDescriptions[7], settings_setDisplayRotation, settings_displayDisplayRotation }, /*Display Rotation*/
+		{ (const char*) SettingsDescriptions[10], settings_setCoolingBlinkEnabled, settings_displayCoolingBlinkEnabled }, /*Cooling blink warning*/
+		{ (const char*) SettingsDescriptions[15], settings_setScrollSpeed, settings_displayScrollSpeed }, /*Scroll Speed for descriptions*/
+		{ (const char*) SettingsDescriptions[21], settings_setReverseButtonTempChangeEnabled, settings_displayReverseButtonTempChangeEnabled }, /* Reverse Temp change buttons + - */
 		{ NULL, NULL, NULL }																													  // end of menu marker. DO NOT REMOVE
 };
 const menuitem PowerMenu[] = {
@@ -185,10 +184,10 @@ const menuitem PowerMenu[] = {
  * 	Shutdown Time
  * 	Motion Sensitivity
  */
-{ (const char *) SettingsDescriptions[1], settings_setSleepTemp, settings_displaySleepTemp }, /*Sleep Temp*/
-{ (const char *) SettingsDescriptions[2], settings_setSleepTime, settings_displaySleepTime }, /*Sleep Time*/
-{ (const char *) SettingsDescriptions[3], settings_setShutdownTime, settings_displayShutdownTime }, /*Shutdown Time*/
-{ (const char *) SettingsDescriptions[4], settings_setSensitivity, settings_displaySensitivity }, /* Motion Sensitivity*/
+{ (const char*) SettingsDescriptions[1], settings_setSleepTemp, settings_displaySleepTemp }, /*Sleep Temp*/
+{ (const char*) SettingsDescriptions[2], settings_setSleepTime, settings_displaySleepTime }, /*Sleep Time*/
+{ (const char*) SettingsDescriptions[3], settings_setShutdownTime, settings_displayShutdownTime }, /*Shutdown Time*/
+{ (const char*) SettingsDescriptions[4], settings_setSensitivity, settings_displaySensitivity }, /* Motion Sensitivity*/
 #ifdef HALL_SENSOR
 		{ (const char *) SettingsDescriptions[26], settings_setHallEffect, settings_displayHallEffect }, /* HallEffect Sensitivity*/
 #endif
@@ -205,23 +204,30 @@ const menuitem advancedMenu[] = {
  *  Reset Settings
  *  Power Pulse
  */
-{ (const char *) SettingsDescriptions[20], settings_setPowerLimit, settings_displayPowerLimit }, /*Power limit*/
-{ (const char *) SettingsDescriptions[6], settings_setAdvancedIDLEScreens, settings_displayAdvancedIDLEScreens }, /* Advanced idle screen*/
-{ (const char *) SettingsDescriptions[14], settings_setAdvancedSolderingScreens, settings_displayAdvancedSolderingScreens }, /* Advanced soldering screen*/
-{ (const char *) SettingsDescriptions[12], settings_setResetSettings, settings_displayResetSettings }, /*Resets settings*/
-{ (const char *) SettingsDescriptions[11], settings_setCalibrate, settings_displayCalibrate }, /*Calibrate tip*/
-{ (const char *) SettingsDescriptions[13], settings_setCalibrateVIN, settings_displayCalibrateVIN }, /*Voltage input cal*/
-{ (const char *) SettingsDescriptions[24], settings_setPowerPulse, settings_displayPowerPulse }, /*Power Pulse adjustment */
+{ (const char*) SettingsDescriptions[20], settings_setPowerLimit, settings_displayPowerLimit }, /*Power limit*/
+{ (const char*) SettingsDescriptions[6], settings_setAdvancedIDLEScreens, settings_displayAdvancedIDLEScreens }, /* Advanced idle screen*/
+{ (const char*) SettingsDescriptions[14], settings_setAdvancedSolderingScreens, settings_displayAdvancedSolderingScreens }, /* Advanced soldering screen*/
+{ (const char*) SettingsDescriptions[12], settings_setResetSettings, settings_displayResetSettings }, /*Resets settings*/
+{ (const char*) SettingsDescriptions[11], settings_setCalibrate, settings_displayCalibrate }, /*Calibrate tip*/
+{ (const char*) SettingsDescriptions[13], settings_setCalibrateVIN, settings_displayCalibrateVIN }, /*Voltage input cal*/
+{ (const char*) SettingsDescriptions[24], settings_setPowerPulse, settings_displayPowerPulse }, /*Power Pulse adjustment */
 //{ (const char *) SettingsDescriptions[25], settings_setTipGain, settings_displayTipGain }, /*TipGain*/
-{ NULL, NULL, NULL }																										  // end of menu marker. DO NOT REMOVE
+		{ NULL, NULL, NULL }																										  // end of menu marker. DO NOT REMOVE
 };
 
 static void printSettingName(uint32_t shortDescIndex) {
+#ifdef SETTINGS_USES_SINGLE_LINE
+	OLED::setFont(0);
+	OLED::setCharCursor(0, 0);
+	OLED::print(SettingsShortNames[shortDescIndex][0]);
+#else
 	OLED::setFont(1);
 	OLED::setCharCursor(0, 0);
 	OLED::print(SettingsShortNames[shortDescIndex][0]);
 	OLED::setCharCursor(0, 1);
 	OLED::print(SettingsShortNames[shortDescIndex][1]);
+#endif
+
 }
 
 /**
@@ -343,14 +349,12 @@ static void settings_displayQCInputV(void) {
 static bool settings_setSleepTemp(void) {
 	// If in C, 10 deg, if in F 20 deg
 #ifdef ENABLED_FAHRENHEIT_SUPPORT
-	if (systemSettings.temperatureInF)
-	{
+	if (systemSettings.temperatureInF) {
 		systemSettings.SleepTemp += 20;
 		if (systemSettings.SleepTemp > 580)
-		systemSettings.SleepTemp = 60;
+			systemSettings.SleepTemp = 60;
 		return systemSettings.SleepTemp == 580;
-	}
-	else
+	} else
 #endif
 	{
 		systemSettings.SleepTemp += 10;
@@ -409,20 +413,15 @@ static void settings_displayShutdownTime(void) {
 	}
 }
 #ifdef ENABLED_FAHRENHEIT_SUPPORT
-static bool settings_setTempF(void)
-{
+static bool settings_setTempF(void) {
 	systemSettings.temperatureInF = !systemSettings.temperatureInF;
-	if (systemSettings.temperatureInF)
-	{
+	if (systemSettings.temperatureInF) {
 		// Change sleep, boost and soldering temps to the F equiv
 		// C to F == F= ( (C*9) +160)/5
 		systemSettings.BoostTemp = ((systemSettings.BoostTemp * 9) + 160) / 5;
-		systemSettings.SolderingTemp =
-		((systemSettings.SolderingTemp * 9) + 160) / 5;
+		systemSettings.SolderingTemp = ((systemSettings.SolderingTemp * 9) + 160) / 5;
 		systemSettings.SleepTemp = ((systemSettings.SleepTemp * 9) + 160) / 5;
-	}
-	else
-	{
+	} else {
 		// Change sleep, boost and soldering temps to the C equiv
 		// F->C == C = ((F-32)*5)/9
 		systemSettings.BoostTemp = ((systemSettings.BoostTemp - 32) * 5) / 9;
@@ -439,8 +438,7 @@ static bool settings_setTempF(void)
 	return false;
 }
 
-static void settings_displayTempF(void)
-{
+static void settings_displayTempF(void) {
 	printShortDescription(5, 7);
 
 	OLED::print((systemSettings.temperatureInF) ? SymbolDegF : SymbolDegC);
@@ -550,24 +548,18 @@ static void settings_displayDisplayRotation(void) {
 
 static bool settings_setBoostTemp(void) {
 #ifdef ENABLED_FAHRENHEIT_SUPPORT
-	if (systemSettings.temperatureInF)
-	{
-		if (systemSettings.BoostTemp == 0)
-		{
+	if (systemSettings.temperatureInF) {
+		if (systemSettings.BoostTemp == 0) {
 			systemSettings.BoostTemp = 480; // loop back at 480
-		}
-		else
-		{
+		} else {
 			systemSettings.BoostTemp += 20; // Go up 20F at a time
 		}
 
-		if (systemSettings.BoostTemp > 850)
-		{
+		if (systemSettings.BoostTemp > 850) {
 			systemSettings.BoostTemp = 0; // jump to off
 		}
 		return systemSettings.BoostTemp == 840;
-	}
-	else
+	} else
 #endif
 	{
 		if (systemSettings.BoostTemp == 0) {
@@ -630,13 +622,13 @@ static void settings_displayLockingMode(void) {
 
 	switch (systemSettings.lockingMode) {
 	case 0:
-		OLED::print (SettingLockDisableChar);
+		OLED::print(SettingLockDisableChar);
 		break;
 	case 1:
-		OLED::print (SettingLockBoostChar);
+		OLED::print(SettingLockBoostChar);
 		break;
 	case 2:
-		OLED::print (SettingLockFullChar);
+		OLED::print(SettingLockFullChar);
 		break;
 	default:
 		OLED::print(SettingLockDisableChar);
@@ -760,12 +752,9 @@ static bool settings_setCalibrateVIN(void) {
 
 		// Cap to sensible values
 #if defined(MODEL_TS80) + defined(MODEL_TS80P) > 0
-		if (systemSettings.voltageDiv < 500)
-		{
+		if (systemSettings.voltageDiv < 500) {
 			systemSettings.voltageDiv = 500;
-		}
-		else if (systemSettings.voltageDiv > 900)
-		{
+		} else if (systemSettings.voltageDiv > 900) {
 			systemSettings.voltageDiv = 900;
 		}
 #else
