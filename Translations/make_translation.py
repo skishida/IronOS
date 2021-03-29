@@ -493,7 +493,7 @@ def writeLanguage(lang, defs, f):
 
     # ----- Writing SettingsDescriptions
     obj = lang["menuOptions"]
-    f.write(to_unicode("const char* SettingsShortNames[][2] = {\n"))
+    f.write(to_unicode("const char* SettingsShortNames[] = {\n"))
 
     maxLen = 25
     index = 0
@@ -512,11 +512,12 @@ def writeLanguage(lang, defs, f):
         )
         f.write(
             to_unicode(
-                '{ "'
-                + convStr(symbolConversionTable, (obj[eid]["text2"][0]))
-                + '", "'
-                + convStr(symbolConversionTable, (obj[eid]["text2"][1]))
-                + '" },'
+                '"'
+                + convStr(
+                    symbolConversionTable,
+                    obj[eid]["text2"][0] + '\\n' + obj[eid]["text2"][1],
+                )
+                + '",'
                 + "//{} \n".format(obj[eid]["text2"])
             )
         )
