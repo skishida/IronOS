@@ -141,6 +141,15 @@ def getLetterCounts(defs, lang):
         else:
             textList.append(obj[eid])
 
+    obj = lang["messagesWarn"]
+    for mod in defs["messagesWarn"]:
+        eid = mod["id"]
+        if isinstance(obj[eid], list):
+            textList.append(obj[eid][0])
+            textList.append(obj[eid][1])
+        else:
+            textList.append(obj[eid])
+
     obj = lang["characters"]
 
     for mod in defs["characters"]:
@@ -431,6 +440,26 @@ def writeLanguage(lang, defs, f):
             sourceText = mod["default"]
         if eid in obj:
             sourceText = obj[eid]
+        translatedText = convStr(symbolConversionTable, sourceText)
+        f.write(
+            to_unicode(
+                "const char* "
+                + eid
+                + ' = "'
+                + translatedText
+                + '";'
+                + "//{} \n".format(sourceText.replace("\n", "_"))
+            )
+        )
+
+    obj = lang["messagesWarn"]
+
+    for mod in defs["messagesWarn"]:
+        eid = mod["id"]
+        if isinstance(obj[eid], list):
+            sourceText = obj[eid][0] + "\n" + obj[eid][1]
+        else:
+            sourceText = "\n" + obj[eid]
         translatedText = convStr(symbolConversionTable, sourceText)
         f.write(
             to_unicode(
