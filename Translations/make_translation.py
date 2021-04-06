@@ -382,24 +382,26 @@ def convert_string(symbol_conversion_table: Dict[str, str], text: str) -> str:
 
 
 def write_language(lang: dict, defs: dict, f: TextIO) -> None:
-    language_code: str = lang["languageCode"]
-    logging.info(f"Generating block for {language_code}")
+    write_languages([lang], defs, f)
+
+
+def write_languages(langs: List[dict], defs: dict, f: TextIO) -> None:
+    LANG_DELIMITER = "\\0"
+    logging.info(f"Generating block for {[lang['languageCode'] for lang in langs]}")
+
     # Iterate over all of the text to build up the symbols & counts
-    text_list = get_letter_counts(defs, [lang])
+    text_list = get_letter_counts(defs, langs)
     # From the letter counts, need to make a symbol translator & write out the font
     font_table_text, symbol_conversion_table = get_font_map_and_table(text_list)
 
-    try:
-        lang_name = lang["languageLocalName"]
-    except KeyError:
-        lang_name = language_code
+    lang_names = [lang.get("languageLocalName", lang["languageCode"]) for lang in langs]
 
-    f.write(f"\n// ---- {lang_name} ----\n\n")
+    f.write(f"\n// ---- {lang_names} ----\n\n")
     f.write(font_table_text)
-    f.write(f"\n// ---- {lang_name} ----\n\n")
+    f.write(f"\n// ---- {lang_names} ----\n\n")
 
     # ----- Writing SettingsDescriptions
-    obj = lang["menuOptions"]
+    objs = [lang["menuOptions"] for lang in langs]
     f.write("const char* SettingsDescriptions[] = {\n")
 
     max_len = 25
@@ -410,7 +412,7 @@ def write_language(lang: dict, defs: dict, f: TextIO) -> None:
             f.write(f"#ifdef {mod['feature']}\n")
         f.write(f"  /* [{index:02d}] {eid.ljust(max_len)[:max_len]} */ ")
         f.write(
-            f"\"{convert_string(symbol_conversion_table, obj[eid]['desc'])}\",//{obj[eid]['desc']} \n"
+            f"\"{LANG_DELIMITER.join([convert_string(symbol_conversion_table, obj[eid]['desc']) for obj in objs])}\", //{[obj[eid]['desc'] for obj in objs]} \n"
         )
 
         if "feature" in mod:
@@ -421,46 +423,62 @@ def write_language(lang: dict, defs: dict, f: TextIO) -> None:
 
     # ----- Writing Message strings
 
-    obj = lang["messages"]
+    objs = [lang["messages"] for lang in langs]
 
     for mod in defs["messages"]:
         eid = mod["id"]
-        source_text = ""
-        if "default" in mod:
-            source_text = mod["default"]
-        if eid in obj:
-            source_text = obj[eid]
-        translated_text = convert_string(symbol_conversion_table, source_text)
-        source_text = source_text.replace("\n", "_")
-        f.write(f'const char* {eid} = "{translated_text}";//{source_text} \n')
+        source_texts = []
+        for obj in objs:
+            source_text = ""
+            if "default" in mod:
+                source_text = mod["default"]
+            if eid in obj:
+                source_text = obj[eid]
+            source_texts.append(source_text)
+        translated_texts = [
+            convert_string(symbol_conversion_table, source_text)
+            for source_text in source_texts
+        ]
+        source_texts = [source_text.replace("\n", "_") for source_text in source_texts]
+        f.write(
+            f'const char* {eid} = "{LANG_DELIMITER.join(translated_texts)}";//{source_texts} \n'
+        )
 
     f.write("\n")
 
-    obj = lang["messagesWarn"]
+    objs = [lang["messagesWarn"] for lang in langs]
 
     for mod in defs["messagesWarn"]:
         eid = mod["id"]
-        if isinstance(obj[eid], list):
-            if not obj[eid][1]:
-                source_text = obj[eid][0]
+        source_texts = []
+        for obj in objs:
+            if isinstance(obj[eid], list):
+                if not obj[eid][1]:
+                    source_text = obj[eid][0]
+                else:
+                    source_text = obj[eid][0] + "\n" + obj[eid][1]
             else:
-                source_text = obj[eid][0] + "\n" + obj[eid][1]
-        else:
-            source_text = "\n" + obj[eid]
-        translated_text = convert_string(symbol_conversion_table, source_text)
-        source_text = source_text.replace("\n", "_")
-        f.write(f'const char* {eid} = "{translated_text}";//{source_text} \n')
+                source_text = "\n" + obj[eid]
+            source_texts.append(source_text)
+        translated_texts = [
+            convert_string(symbol_conversion_table, source_text)
+            for source_text in source_texts
+        ]
+        source_texts = [source_text.replace("\n", "_") for source_text in source_texts]
+        f.write(
+            f'const char* {eid} = "{LANG_DELIMITER.join(translated_texts)}";//{source_texts} \n'
+        )
 
     f.write("\n")
 
     # ----- Writing Characters
 
-    obj = lang["characters"]
+    objs = [lang["characters"] for lang in langs]
 
     for mod in defs["characters"]:
         eid: str = mod["id"]
         f.write(
-            f'const char* {eid} = "{convert_string(symbol_conversion_table, obj[eid])}";//{obj[eid]} \n'
+            f'const char* {eid} = "{LANG_DELIMITER.join([convert_string(symbol_conversion_table, obj[eid]) for obj in objs])}";//{[obj[eid] for obj in objs]} \n'
         )
     f.write("\n")
 
@@ -480,25 +498,28 @@ def write_language(lang: dict, defs: dict, f: TextIO) -> None:
     f.write("};\n\n")
 
     # ----- Writing SettingsDescriptions
-    obj = lang["menuOptions"]
+    objs = [lang["menuOptions"] for lang in langs]
     f.write("const char* SettingsShortNames[] = {\n")
 
     max_len = 25
     index = 0
     for mod in defs["menuOptions"]:
         eid = mod["id"]
-        if isinstance(obj[eid]["text2"], list):
-            if not obj[eid]["text2"][1]:
-                source_text = obj[eid]["text2"][0]
+        source_texts = []
+        for obj in objs:
+            if isinstance(obj[eid]["text2"], list):
+                if not obj[eid]["text2"][1]:
+                    source_text = obj[eid]["text2"][0]
+                else:
+                    source_text = obj[eid]["text2"][0] + "\n" + obj[eid]["text2"][1]
             else:
-                source_text = obj[eid]["text2"][0] + "\n" + obj[eid]["text2"][1]
-        else:
-            source_text = "\n" + obj[eid]["text2"]
+                source_text = "\n" + obj[eid]["text2"]
+            source_texts.append(source_text)
         if "feature" in mod:
             f.write(f"#ifdef {mod['feature']}\n")
         f.write(f"  /* [{index:02d}] {eid.ljust(max_len)[:max_len]} */ ")
         f.write(
-            f'{{ "{convert_string(symbol_conversion_table, source_text)}" }},//{obj[eid]["text2"]} \n'
+            f'{{ "{LANG_DELIMITER.join([convert_string(symbol_conversion_table, source_text) for source_text in source_texts])}" }},//{[obj[eid]["text2"] for obj in objs]} \n'
         )
 
         if "feature" in mod:
@@ -508,46 +529,51 @@ def write_language(lang: dict, defs: dict, f: TextIO) -> None:
     f.write("};\n\n")
 
     # ----- Writing Menu Groups
-    obj = lang["menuGroups"]
-    f.write(f"const char* SettingsMenuEntries[{len(obj)}] = {{\n")
+    objs = [lang["menuGroups"] for lang in langs]
+    f.write(f"const char* SettingsMenuEntries[{len(defs['menuGroups'])}] = {{\n")
 
     max_len = 25
     for mod in defs["menuGroups"]:
         eid = mod["id"]
-        if isinstance(obj[eid]["text2"], list):
-            if not obj[eid]["text2"][1]:
-                source_text = obj[eid]["text2"][0]
+        source_texts = []
+        for obj in objs:
+            if isinstance(obj[eid]["text2"], list):
+                if not obj[eid]["text2"][1]:
+                    source_text = obj[eid]["text2"][0]
+                else:
+                    source_text = obj[eid]["text2"][0] + "\n" + obj[eid]["text2"][1]
             else:
-                source_text = obj[eid]["text2"][0] + "\n" + obj[eid]["text2"][1]
-        else:
-            source_text = "\n" + obj[eid]["text2"]
+                source_text = "\n" + obj[eid]["text2"]
+            source_texts.append(source_text)
         f.write(f"  /* {eid.ljust(max_len)[:max_len]} */ ")
         f.write(
-            f'"{convert_string(symbol_conversion_table, source_text)}",//{obj[eid]["text2"]} \n'
+            f'"{LANG_DELIMITER.join([convert_string(symbol_conversion_table, source_text) for source_text in source_texts])}",//{[obj[eid]["text2"] for obj in objs]} \n'
         )
 
     f.write("};\n\n")
 
     # ----- Writing Menu Groups Descriptions
-    obj = lang["menuGroups"]
-    f.write(f"const char* SettingsMenuEntriesDescriptions[{(len(obj))}] = {{\n")
+    objs = [lang["menuGroups"] for lang in langs]
+    f.write(
+        f"const char* SettingsMenuEntriesDescriptions[{(len(defs['menuGroups']))}] = {{\n"
+    )
 
     max_len = 25
     for mod in defs["menuGroups"]:
         eid = mod["id"]
         f.write(f"  /* {eid.ljust(max_len)[:max_len]} */ ")
         f.write(
-            f"\"{convert_string(symbol_conversion_table, (obj[eid]['desc']))}\",//{obj[eid]['desc']} \n"
+            f"\"{LANG_DELIMITER.join([convert_string(symbol_conversion_table, (obj[eid]['desc'])) for obj in objs])}\",//{[obj[eid]['desc'] for obj in objs]} \n"
         )
 
     f.write("};\n\n")
     f.write(
-        f"const bool HasFahrenheit = {('true' if lang.get('tempUnitFahrenheit', True) else 'false')};\n"
+        f"const bool HasFahrenheit = {('true' if any([lang.get('tempUnitFahrenheit', True) for lang in langs]) else 'false')};\n"
     )
     f.write(
-        f"const char *LanguageCodes = \"{convert_string(symbol_conversion_table, lang['languageCode'])}\";\n"
+        f"const char *LanguageCodes = \"{LANG_DELIMITER.join([convert_string(symbol_conversion_table, lang['languageCode']) for lang in langs])}\";//{[lang['languageCode'] for lang in langs]}\n"
     )
-    f.write(f"const uint8_t LanguageCount = 1;\n")
+    f.write(f"const uint8_t LanguageCount = {len(langs)};\n")
 
     f.write("\n// Verify SettingsItemIndex values:\n")
     for i, mod in enumerate(defs["menuOptions"]):
@@ -577,7 +603,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output", "-o", help="Target file", type=argparse.FileType("w"), required=True
     )
-    parser.add_argument("languageCode", help="Language to generate")
+    parser.add_argument(
+        "languageCodes",
+        metavar="languageCode",
+        nargs="+",
+        help="Language(s) to generate",
+    )
     return parser.parse_args()
 
 
@@ -592,12 +623,27 @@ if __name__ == "__main__":
         sys.exit(1)
 
     logging.info(f"Build version: {buildVersion}")
-    logging.info(f"Making {args.languageCode} from {json_dir}")
+    if len(args.languageCodes) == 1:
+        language_code = args.languageCodes[0]
+        logging.info(f"Making {language_code} from {json_dir}")
 
-    lang_ = read_translation(json_dir, args.languageCode)
-    defs_ = load_json(os.path.join(json_dir, "translations_def.js"), True)
-    out_ = args.output
-    write_start(out_)
-    write_language(lang_, defs_, out_)
+        lang_ = read_translation(json_dir, language_code)
+        defs_ = load_json(os.path.join(json_dir, "translations_def.js"), True)
+        out_ = args.output
+        write_start(out_)
+        write_language(lang_, defs_, out_)
+    else:
+        language_codes = args.languageCodes
+        if len(language_codes) != len(set(language_codes)):
+            logging.error("error: Duplicated languageCode specified")
+            sys.exit(1)
+        logging.info(
+            f"Making multi-language definition with {language_codes} from {json_dir}"
+        )
+        langs = [read_translation(json_dir, lang_code) for lang_code in language_codes]
+        defs_ = load_json(os.path.join(json_dir, "translations_def.js"), True)
+        out_ = args.output
+        write_start(out_)
+        write_languages(langs, defs_, out_)
 
     logging.info("Done")

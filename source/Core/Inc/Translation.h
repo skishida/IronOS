@@ -122,6 +122,7 @@ constexpr uint8_t settings_item_index(const SettingsItemIndex i) { return static
 // Use a constexpr function for type-checking.
 #define SETTINGS_DESC(i) (SettingsDescriptions[settings_item_index(i)])
 
+const char *translatedString(const char *str);
 bool        settings_displayLanguageSwitch(void);
 bool        settings_setLanguageSwitch(void);
 
